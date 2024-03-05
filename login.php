@@ -1,6 +1,9 @@
 <?php
+session_start();
 // Check if the GET parameter "logout" is set. If so, log the user out.
 if (isset($_GET["logout"])) {
+    session_unset();
+    session_destroy();
     header("Location: login.php");
     exit();
 }
@@ -16,7 +19,9 @@ if (
     isset($_POST["login"]) &&
     $_POST["username"] = "Toni" && $_POST["password"] = "booklove"
 ) {
+    $_SESSION["login"] = true;
     header("Location: admin.php");
+    exit();
 }
 
 

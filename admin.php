@@ -1,12 +1,17 @@
 <?php
-    // If the user is not logged in, redirect them back to login.php.
-    if (!isset($_POST["login"])) {
-        header("Location: login.php");
-        echo "You messed up";
-    }
+// If the user is not logged in, redirect them back to login.php.
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("Location: login.php");
+    exit();
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,13 +19,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="booksite.css">
 </head>
+
 <body>
     <div id="container">
         <header>
             <h1>Your Favorite Books</h1>
         </header>
         <nav id="main-navi">
-        <ul>
+            <ul>
                 <li><a href="admin.php">Admin Home</a></li>
                 <li><a href="addbook.php">Add a New Book</a></li>
                 <li><a href="login.php?logout">Log Out</a></li>
@@ -29,7 +35,7 @@
         <main>
             <h2>All Books</h2>
             <?php
-                // This is almost identical to booksite.php (minus the genres). Make sure to print the correct id to the delete form.
+            // This is almost identical to booksite.php (minus the genres). Make sure to print the correct id to the delete form.
             ?>
             <section class="book">
                 <form class="deleteform" action="deletebook.php" method="post">
@@ -42,10 +48,12 @@
                     <span class="year">1960</span>
                 </p>
                 <p class="description">
-                    Harper Lee's masterpiece explores racial injustice and moral growth through the eyes of a young girl in the American South.
+                    Harper Lee's masterpiece explores racial injustice and moral growth through the eyes of a young girl
+                    in the American South.
                 </p>
             </section>
         </main>
-    </div>    
+    </div>
 </body>
+
 </html>
