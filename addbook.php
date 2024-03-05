@@ -1,11 +1,29 @@
 <?php
     // If the user is not logged in, redirect them back to login.php.
+    session_start();
 
+    if (!isset($_SESSION["login"])) {
+        header("Location: login.php");
+        exit();
+    }
     // if the form has been sent, add the book to the data file
-
+       
     // In order to protect against cross-site scripting attacks (i.e. basic PHP security), remove HTML tags from all input.
     // There's a function for that. E.g.
     // $title = strip_tags($_POST["title"]);
+
+    $bookid = strip_tags($_POST["bookid"]);
+    $title = strip_tags($_POST["title"]);
+    $author = strip_tags($_POST["author"]);
+    $year = strip_tags($_POST["year"]);
+    $genre = strip_tags($_POST["genre"]);
+    $description = strip_tags($_POST["description"]);
+
+    if (isset($_POST["add-book"])) {
+        $book = [$bookid, $title, $author, $year, $genre, $description];
+        file_put_contents("books.json", $book);
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

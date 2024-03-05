@@ -5,6 +5,11 @@
 // $favorites_string = implode(",", $favorites); // "1,4,6"
 // setcookie("favorites", $favorites_string, time()+86400*30);
 // $favorites = explode(",", $_COOKIE["favorites"]);
+    $favorites = [];
+    if (isset($_GET["id"]));{
+        setcookie("favorites", time()+86400);
+    }
+    
 
 // If the cookie's not set or this id is not part of the cookie, add this id and send the cookie to the user.
 // If it's part of the cookie, remove it and send the new cookie to the user.
