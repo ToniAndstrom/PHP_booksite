@@ -5,17 +5,44 @@
 // $favorites_string = implode(",", $favorites); // "1,4,6"
 // setcookie("favorites", $favorites_string, time()+86400*30);
 // $favorites = explode(",", $_COOKIE["favorites"]);
-    $favorites = [];
-    if (isset($_GET["id"]));{
-        setcookie("favorites", time()+86400);
-    }
-    
+$bookId = $_GET["id"] ?? null;
+
+
+
+
+if (isset ($_COOKIE["favorites"])) {
+    $favoritesId = explode(",", $_COOKIE["favorites"]);
+} else {
+    $favoritesId = [];
+}
+
+$favoriteKey = array_search($bookId, $favoritesId);
+
+if ($favoriteKey) {
+    // $favoritesId = array_diff($favoritesId, [$bookId]);
+    unset($favoritesId[$favoriteKey]);
+} else {
+    $favoritesId[] = $bookId;
+}
+
+
+
 
 // If the cookie's not set or this id is not part of the cookie, add this id and send the cookie to the user.
+
+
+
 // If it's part of the cookie, remove it and send the new cookie to the user.
 // By far the easiest way to remove a specific item (not index) from array is to use array_diff function, e.g.
 // $favorites = array_diff($favorites, array($id));
 // This takes the items in the first array ($favorites) that are not in the second array (containing only the book id), and puts the result back to $favorites
 
+
+
+$favorites_string = implode(",", $favoritesId);
+setcookie("favorites", $favorites_string, time() + 86400 * 30);
+
 // Redirect back to booksite.php. If you want to redirect to the exact page user came from, that's header("Location:" . $_SERVER["HTTP_REFERER"]);
 // And no, that's not a typo. It is HTTP_REFERER.
+header("Location:" . $_SERVER["HTTP_REFERER"]);
+exit();

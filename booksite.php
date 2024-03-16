@@ -35,21 +35,17 @@
             $json = file_get_contents("books.json");
             $books = json_decode($json, true);
 
-            if (isset($_GET['genre'])) {
-                $genre = $_GET['genre'];
-            }
-
-
-            $filterBooks = [];
-            foreach ($books as $book) {
-                if ($book['genre'] === $genre) {
-                    $filterBooks[] = $book;
+            if (isset ($_GET["genre"])) {
+                $genre = $_GET["genre"];
+                $filterBooks = [];
+                foreach ($books as $book) {
+                    if ($book["genre"] === $genre) {
+                        $filterBooks[] = $book;
+                    }
                 }
-
+            } else {
+                $filterBooks = $books;
             }
-
-
-
 
             // Use the HTML template below and a loop (+ conditional if the genre was given) to go through the books in file  
             
@@ -60,8 +56,21 @@
             ?>
             <h2>Genre Name or "All Books"</h2>
             <?php foreach ($filterBooks as $book): ?>
+                <?php
+                if (isset ($_COOKIE["favorites"])) {
+                    $favorites = explode(",", $_COOKIE["favorites"]);
+                } else {
+                    $favorites = [];
+                }
+                $favoriteKey = in_array($book["id"], $favorites);
+                if ($favoriteKey) {
+                    $favoriteStar = 'fa-star';
+                } else {
+                    $favoriteStar = 'fa-star-o';
+                }
+                ?>
                 <section class="book">
-                    <a class="bookmark fa fa-star-o" href="setfavorite.php?id=1"></a>
+                    <a class="bookmark fa <?php echo $favoriteStar ?>" href="setfavorite.php?id=<?php echo $book['id'] ?>"></a>
                     <h3>
                         <?php echo $book['title'] ?>
                     </h3>
